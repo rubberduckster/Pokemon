@@ -1,10 +1,17 @@
-﻿namespace POKEMONN
+﻿using POKEMONN.utils;
+
+namespace POKEMONN
 {
-    internal class Program
+    class Program
     {
+        public static string? FileName = "pokemon.txt";
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            new FileHandler(FileName);
+            FileHandler.CreateFile();
+            new DrawMenu(1, 1, 80, 25, "Pokemon Index");
+            DrawMenu.MakeMenu();
+            Console.ReadKey();
         }
     }
 }
