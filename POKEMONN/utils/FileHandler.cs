@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using POKEMONN.programs;
 
 namespace POKEMONN.utils
 {
@@ -25,6 +26,43 @@ namespace POKEMONN.utils
             {
                 File.Create(FileName);
             }
+        }
+
+        public static string? WriteToFile(List<AddPokemon> _pokemons)
+        {
+            try
+            {
+                string[] pokemonNames = _pokemons.Select(p => p.Name + "," + p.Type + "," + p.Level + "," + p.Strength).ToArray();
+                File.WriteAllLines(FileName, pokemonNames);
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
+        }
+
+        public static void ReadFromFile()
+        {
+            string[] pokemonNames = File.ReadAllLines(FileName);
+            List<AddPokemon> pokemons = [];
+            for (int i = 0; i < pokemonNames.Length; i++)
+            {
+                string pokemonName = pokemonNames[i];
+                string[] Values = pokemonName.Split(',');
+                string PokemonName = Values[0];
+                string PokemonType = Values[1];
+                int PokeLevel = int.Parse(Values[2]);
+                int PokeStrength = int.Parse(Values[3]);
+                pokemons.Add(new AddPokemon()
+                {
+                    Name = pokemonName,
+                    Type = PokemonType,
+                    Level = PokeLevel,
+                    Strength = PokeStrength
+                });
+            }
+            Program.pokemons = pokemons;
         }
     }
 }

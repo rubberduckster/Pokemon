@@ -1,10 +1,14 @@
-﻿using POKEMONN.utils;
+﻿using POKEMONN.programs;
+using POKEMONN.utils;
 
 namespace POKEMONN
 {
     class Program
     {
         public static string? FileName = "pokemon.txt";
+        public static bool Exit = true;
+        public static List<AddPokemon> pokemons = new List<AddPokemon>();
+
         static void Main(string[] args)
         {
             string[] _menu = {
@@ -18,10 +22,20 @@ namespace POKEMONN
             new DrawMenu(1, 1, 80, 25, "Pokemon Index");
             new MenuChoices(_menu);
             FileHandler.CreateFile();
-            MenuChoices.SetupMenuChoices();
-            DrawMenu.MakeMenu();
+            FileHandler.ReadFromFile();
+            do
+            {
+                Console.Clear();
+                DrawMenu.MakeMenu();
+                MenuChoices.SetupMenuChoices();
+                Console.WriteLine("");
+                Console.CursorLeft = 3;
+                Console.WriteLine("Enter your choice: ");
+                string? choice = Console.ReadLine();
+                MenuChoices.Case(choice);
 
-            Console.ReadKey();
+            } while (Exit);
+            FileHandler.WriteToFile(pokemons);
         }
     }
 }
